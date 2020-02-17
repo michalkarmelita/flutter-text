@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:text_interaction/utils/reader_text_selection.dart';
 
 typedef HighlightCallback = void Function(int start, int end);
@@ -218,4 +219,66 @@ class _ReaderTextSelectionGestureDetectorBuilder
   _ReaderTextSelectionGestureDetectorBuilder({
     @required _SelectableReaderTextState state,
   }) : super(delegate: state);
+
+  @override
+  void onForcePressStart(ForcePressDetails details) {
+    super.onForcePressStart(details);
+    HapticFeedback.lightImpact();
+  }
+
+  @override
+  void onSingleLongTapStart(LongPressStartDetails details) {
+    if (delegate.selectionEnabled) {
+      renderEditable.selectWord(cause: SelectionChangedCause.tap);
+    }
+    HapticFeedback.lightImpact();
+  }
+
+  @override
+  void onSingleLongTapMoveUpdate(LongPressMoveUpdateDetails details) {}
+
+  @override
+  void onSingleLongTapEnd(LongPressEndDetails details) {
+    editableText.showToolbar();
+  }
+
+//  @override
+//  void onForcePressEnd(ForcePressDetails details) {
+//    super.onForcePressEnd(details);
+//    HapticFeedback.lightImpact();
+//  }
+
+}
+
+class SolidReaderText extends StatelessWidget {
+  final List<ReaderSpan> spans;
+
+  const SolidReaderText({Key key, this.spans}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text.rich(TextSpan(
+      children: spans.map((readerSpan) => readerSpan.span).toList(),
+    ));
+  }
+}
+
+abstract class ReaderSpan {
+  final TextSpan _span;
+  ReaderSpan._(this._span);
+  InlineSpan get span;
+}
+
+class RegularSpan extends ReaderSpan {
+  RegularSpan(TextSpan span) : super._(span);
+  @override
+  InlineSpan get span => _span;
+}
+
+class HighlightedSpan extends ReaderSpan {
+  final Key key;
+  HighlightedSpan(TextSpan span, {this.key}) : super._(span);
+  @override
+  InlineSpan get span =>
+      WidgetSpan(child: KeyedSubtree(key: key, child: Text.rich(_span)));
 }
