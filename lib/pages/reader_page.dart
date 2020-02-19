@@ -34,11 +34,11 @@ class _Header extends StatelessWidget {
             children: <Widget>[
               Text(title,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline4),
+                  style: Theme.of(context).textTheme.headline),
               const SizedBox(height: 10.0),
               Text(author,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline6),
+                  style: Theme.of(context).textTheme.headline),
             ],
           ),
         ),
@@ -96,4 +96,4 @@ class Highlight {
   Highlight(this.start, this.end);
 }
 
-const _style = TextStyle(color: Colors.black, fontSize: 23.0);
+const _style = TextStyle(color: Colors.black, fontSize: 20.0);
