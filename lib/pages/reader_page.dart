@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:text_interaction/app/constants.dart';
-import 'package:text_interaction/md/markdown.dart' as md;
-import 'package:text_interaction/md_flutter/src/widget.dart';
 import 'package:text_interaction/utils/reader_text.dart';
 
 class ReaderPage extends StatelessWidget {
@@ -9,17 +7,17 @@ class ReaderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Markdown(
-        selectable: true,
-        data: Constants.md,
-        imageDirectory: 'https://raw.githubusercontent.com',
-      ),
-//      body: ListView(
-//        children: <Widget>[
-//          _Header(title: 'The Title of The Story', author: 'Authors Name'),
-//          DocText(),
-//        ],
+//      body: Markdown(
+//        selectable: true,
+//        data: Constants.md,
+//        imageDirectory: 'https://raw.githubusercontent.com',
 //      ),
+      body: ListView(
+        children: <Widget>[
+          _Header(title: 'The Title of The Story', author: 'Authors Name'),
+          DocText(),
+        ],
+      ),
     );
   }
 }
@@ -72,18 +70,18 @@ class _DocTextState extends State<DocText> {
     if (!_isEditing)
       return Column(
         children: <Widget>[
-//          RaisedButton(
-//            child: Text('GO TO HIGHLIGHT'),
-//            onPressed: () {
-//              Scrollable.ensureVisible(hKey.currentContext,
-//                  duration: Duration(seconds: 2));
-//            },
-//          ),
-//          _solid(() {
-//            setState(() {
-//              _isEditing = true;
-//            });
-//          }),
+          RaisedButton(
+            child: Text('GO TO HIGHLIGHT'),
+            onPressed: () {
+              Scrollable.ensureVisible(hKey.currentContext,
+                  duration: Duration(seconds: 2));
+            },
+          ),
+          _solid(() {
+            setState(() {
+              _isEditing = true;
+            });
+          }),
         ],
       );
     return Padding(
